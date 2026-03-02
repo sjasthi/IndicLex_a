@@ -1,0 +1,120 @@
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "indiclex_a_db";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT * FROM `dictionary`";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+            echo "id: " . $row["id"]. " - Name: " 
+                . $row["name"]."<br>";
+          }
+    } else {
+          echo "Error accessing database: " . $conn->error;
+    }
+    $conn->close();
+?>
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ICS 325 - Student Web Space</title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #f0f4f8;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+
+
+        .message-box {
+
+            background-color: #ffffff;
+
+            border: 3px solid #2c3e7a;
+
+            border-radius: 12px;
+
+            padding: 50px 60px;
+
+            max-width: 700px;
+
+            text-align: center;
+
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+
+
+        h1 {
+
+            color: #2c3e7a;
+
+            font-size: 2rem;
+
+            font-weight: 900;
+
+            line-height: 1.5;
+
+            margin: 0;
+
+        }
+
+
+
+        .icon {
+
+            font-size: 3rem;
+
+            margin-bottom: 20px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="message-box">
+
+        <div class="icon">🎓</div>
+
+        <h1>Alligators: Done!</h1>
+
+    </div>
+
+</body>
+
+</html>
