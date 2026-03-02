@@ -1,0 +1,169 @@
+<?php
+    // Variables used to connect to the server
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "indiclex_a_db";
+
+    // Establish connection to the server
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Throw error if connection fails
+    if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+    }
+
+    /** EXAMPLE QUERY #1
+     *  Returns every data point from a given table, specified with the $table variable
+     *  Could be useful for outputting every entry in a dictionary
+     */
+    $table = "dictionary"; // add to the dictionary table in the database
+    $sql = "SELECT * FROM $table"; // SQL query to run
+    $result = $conn->query($sql); // Store the result of the query
+    // If at least 1 result comes back, echo each result
+    if ($result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+            // Echo each key in the table, for dictionaries this is id and name
+            // This is specific for each table type
+            echo "id: " . $row["id"] . " - Name: " . $row["name"]."<br>";
+          }
+    } else {
+        // If query returns nothing, echo error
+        echo "Error accessing database: " . $conn->error;
+    }
+    
+
+    /** EXAMPLE QUERY #2
+     *  Adds new data to a given table, specified with the $table variable
+     *  This will be needed when users sign up, and when new dictionaries and entries are added
+     *  This code will throw an error after the first time, since the id being used is always the same.
+     *  In the real project this id would come from a form or be auto incremented.
+     */
+    $table = "user"; // Add to the user table in the database
+    $sql = "INSERT INTO $table (id, username, password, preferences_id) VALUES ('001', 'test_username', 'test_password', '001')";
+    // if query comes back true, the new data was added successfully    
+    if ($conn->query($sql) === TRUE) {
+          echo "New record created successfully";
+    }else{
+          echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    
+
+    /** EXAMPLE QUERY #3
+     *  Returns every entry, given that the entry is a part of the specified dictionary
+     */
+    $table = "entry"; // return entry data
+    $dictionary_id = 1; // the desired dictionary id to get entries from 
+    $sql = "SELECT * FROM $table WHERE dictionary_id = $dictionary_id"; // SQL query to run
+    $result = $conn->query($sql); // Store the result of the query
+    // If at least 1 result comes back, echo each result
+    if ($result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+            // Echo each key in the table, for dictionaries this is id and name
+            // This is specific for each table type
+            echo "id: " . $row["id"] . " - dictionary id: " . $row["dictionary_id"] . " - lang_1: " . $row["lang_1"] . " - lang_2: " . $row["lang_2"] . "<br>";
+          }
+    } else {
+        // If query returns nothing, echo error
+        echo "Error accessing database: " . $conn->error;
+    }
+
+    // Close connection to server
+    $conn->close(); 
+?>
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ICS 325 - Student Web Space</title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #f0f4f8;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+
+
+        .message-box {
+
+            background-color: #ffffff;
+
+            border: 3px solid #2c3e7a;
+
+            border-radius: 12px;
+
+            padding: 50px 60px;
+
+            max-width: 700px;
+
+            text-align: center;
+
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+
+
+        h1 {
+
+            color: #2c3e7a;
+
+            font-size: 2rem;
+
+            font-weight: 900;
+
+            line-height: 1.5;
+
+            margin: 0;
+
+        }
+
+
+
+        .icon {
+
+            font-size: 3rem;
+
+            margin-bottom: 20px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="message-box">
+
+        <div class="icon">🎓</div>
+
+        <h1>Alligators: Done!</h1>
+
+    </div>
+
+</body>
+
+</html>
