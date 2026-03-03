@@ -1,0 +1,37 @@
+/* ===== Layout Structure (Required for Sticky Footer) ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+main {
+    flex: 1;
+}
+
+/* ===== Hero Section ===== */
+.hero-section {
+    height: 90vh;
+    background: linear-gradient(to right, #0d6efd, #6610f2);
+    color: white;
+}
+
+/* ===== Dark Mode ===== */
+.dark-mode {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+.dark-mode .navbar {
+    background-color: #000000 !important;
+}
+
+.dark-mode .hero-section {
+    background: linear-gradient(to right, #222, #444);
+}
