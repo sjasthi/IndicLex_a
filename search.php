@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- Placeholder Results Section -->
         <div class="mt-5 text-center text-muted">
-            <h5>Results will appear here</h5>
+            <h5>Results will appear here!</h5>
             <p class="small">Search functionality will be connected to the database later.</p>
         </div>
 
@@ -67,3 +67,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <?php include 'includes/footer.php'; ?>
+
