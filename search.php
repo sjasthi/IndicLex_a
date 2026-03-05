@@ -1,5 +1,30 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
+<?php
+$servername = "localhost"; 
+$username = "root";
+$password = "";
+$dbname = "indiclex_a_db";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $search_query = $_POST['search_query'];
+    // Sanitize the input to prevent SQL injection
+    $search_query = mysqli_real_escape_string($conn, $search_query);
+
+  
+    $sql = "SELECT * FROM 'dictionary'";
+    $result = $conn->query($sql);
+}
+
 
 <main>
     <div class="container mt-5">
@@ -39,5 +64,6 @@
 
     </div>
 </main>
+
 
 <?php include 'includes/footer.php'; ?>
