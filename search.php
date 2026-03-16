@@ -34,18 +34,16 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
     $result = $stmt->get_result();
 
     // If at least 1 result comes back, echo each result
-	if ($result -> num_rows > 0) {
-            echo "<h3>Search Results" . htmlspecialchars($search) . "</h3>";
-            echo "<table>";
-            echo "<tr><th>ID</th><th>Telugu</th><th>English</th></tr>";
+	if (mysqli_num_rows($result) > 0) {
+            echo "Search Results" . "<br>";
             // Output data of each row
-            while($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["id"] . "</td><td>" . $row["Tegulu"] . "</td><td>" . $row["English"] . "</td></tr>";
+            while($row = mysqli_fetch_assoc($result)) {
+                echo "id: " . $row["dict_id"] . " Tegulu: " . $row["lang_1"] . " English: ". $row["lang_2"] . "<br>";
             }
-            echo "</table>";
         } else {
             echo "0 results found for your search";
         }
+        mysqli_close($conn); // Close the database connection
         mysqli_close($conn); // Close the database connection
 }
 ?>
