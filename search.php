@@ -56,6 +56,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
 
+        <label>Mode:</label>
+        <select name="mode">
+        <option value="exact">Exact</option>
+        <option value="prefix">Prefix</option>
+        <option value="suffix">Suffix</option>
+        <option value="substring">Substring</option>
+            </select>
+            <br><br> 
+    
         <!-- Placeholder Results Section -->
         <div class="mt-5 text-center text-muted">
             <h5>Results will appear here</h5>
