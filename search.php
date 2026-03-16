@@ -1,29 +1,54 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
 <?php
-$servername = "localhost"; 
-$username = "root";
-$password = "";
-$dbname = "indiclex_a_db";
+    // Variables used to connect to the server
+    $servername = "localhost";
+    $username = "icsbinco_indiclex_a_db_user";
+    $password = "ICS_anna";
+    $dbname = "icsbinco_indiclex_a_db";
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+    // Establish connection to the server
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Throw error if connection fails
+    if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+    }
+	
+if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
+    // Get the search query from the form input
+    $search_query = "%" . trim($_POST['search_query']) . "%";
+    
+	// SQL query to run
+	$sql = "Select dict_id, lang_1, lang_2 FROM dictionary_entries";
+    
+    // Prepare the statement
+    $stmt = $conn->prepare($sql);
+    
+    // Bind the parameters (s = string, bind the search query to the three placeholders)
+    $stmt->bind_param("sss", $search_query, $search_query, $search_query);
+    
+    // Execute the query
+    $stmt->execute();
+    
+    // Get the result set
+    $result = $stmt->get_result();
 
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    // If at least 1 result comes back, echo each result
+	if ($result -> num_rows > 0) {
+            echo "<h3>Search Results" . htmlspecialchars($search) . "</h3>";
+            echo "<table>";
+            echo "<tr><th>ID</th><th>Telugu</th><th>English</th></tr>";
+            // Output data of each row
+            while($row = $result->fetch_assoc()) {
+                echo "<tr><td>" . $row["id"] . "</td><td>" . $row["Tegulu"] . "</td><td>" . $row["English"] . "</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "0 results found for your search";
+        }
+        mysqli_close($conn); // Close the database connection
 }
-echo "Connected successfully";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $search_query = $_POST['search_query'];
-    // Sanitize the input to prevent SQL injection
-    $search_query = mysqli_real_escape_string($conn, $search_query);
-
-  
-    $sql = "SELECT * FROM 'dictionary'";
-    $result = $conn->query($sql);
-}
+?>
 
 
 <main>
