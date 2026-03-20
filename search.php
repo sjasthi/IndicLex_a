@@ -63,7 +63,8 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                 <div class="row g-3 align-items-center">
 
                     <div class="col-md-9">
-                        <input type="text"
+                        <form method="GET" action="">
+							<input type="text"
                                class="form-control form-control-lg"
                                placeholder="Type dictionary name...">
                     </div>
