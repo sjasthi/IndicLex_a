@@ -56,7 +56,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 							<input type="text"
                                class="form-control form-control-lg"
                                placeholder="Type dictionary name...">
-							<input type="submit" name="Search" value="Search"
+							<input type="submit" name="Search" value="Search">
 						</form>
                     </div>
 
