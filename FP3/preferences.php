@@ -1,150 +1,132 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require_once __DIR__ . '/includes/db_mysqli.php';
+
+// Get system defaults from preferences table
+$systemDefaultDict = 'all';
+$systemResultsPerPage = 10;
+$systemTheme = 'light';
+
+$prefSql = "SELECT pref_key, pref_value FROM preferences";
+$prefResult = $conn->query($prefSql);
+
+if ($prefResult) {
+    while ($row = $prefResult->fetch_assoc()) {
+        if ($row['pref_key'] === 'default_dict') {
+            $systemDefaultDict = $row['pref_value'];
+        }
+        if ($row['pref_key'] === 'results_per_page') {
+            $systemResultsPerPage = (int)$row['pref_value'];
+        }
+        if ($row['pref_key'] === 'theme') {
+            $systemTheme = $row['pref_value'];
+        }
+    }
+}
+
+// Save cookies on submit
+$successMessage = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $selectedDict = $_POST['default_dictionary'] ?? '';
+    $selectedResults = $_POST['results_per_page'] ?? '10';
+    $selectedTheme = $_POST['theme'] ?? 'light';
+
+    setcookie('pref_dict', $selectedDict, time() + (86400 * 30), "/");
+    setcookie('pref_results', $selectedResults, time() + (86400 * 30), "/");
+    setcookie('pref_theme', $selectedTheme, time() + (86400 * 30), "/");
+
+    $_COOKIE['pref_dict'] = $selectedDict;
+    $_COOKIE['pref_results'] = $selectedResults;
+    $_COOKIE['pref_theme'] = $selectedTheme;
+
+    $successMessage = "Preferences saved successfully.";
+}
+
+// Cookies first, fallback on default settings
+$currentDefaultDict = $_COOKIE['pref_dict'] ?? $systemDefaultDict;
+$currentResultsPerPage = $_COOKIE['pref_results'] ?? $systemResultsPerPage;
+$currentTheme = $_COOKIE['pref_theme'] ?? $systemTheme;
+
+// Load the  dictionaries
+$dictionaries = [];
+$dictSql = "SELECT dict_id, name FROM dictionaries ORDER BY name ASC";
+$dictResult = $conn->query($dictSql);
+
+if ($dictResult) {
+    while ($row = $dictResult->fetch_assoc()) {
+        $dictionaries[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 <title>Preferences Page</title>
 </head>
 
-<?php include 'includes/navbar.php'; ?>
-
 <body class="bg-light">
+
+<?php include 'includes/navbar.php'; ?>
 
 <div class="container my-5">
     <div class="card shadow-sm">
         <div class="card-body p-4">
 
-            <h1 class="text-center mb-4">Preferences Page</h1>
+            <h1 class="text-center mb-4">Preferences</h1>
 
-            <form>
+            <?php if (!empty($successMessage)): ?>
+                <div class="alert alert-success">
+                    <?php echo htmlspecialchars($successMessage); ?>
+                </div>
+            <?php endif; ?>
 
-                <!-- Language & Region -->
-                <h5 class="mb-3">Language & Region</h5>
+            <form method="POST" action="">
 
                 <div class="mb-3">
-                    <label class="form-label">Interface Language</label>
-                    <select class="form-select" name="interface_language">
-                        <option value="" disabled selected>Select language</option>
-                        <option value="en-US">English (US)</option>
-                        <option value="hi">हिन्दी (Hindi)</option>
+                    <label class="form-label">Default Dictionary</label>
+                    <select class="form-select" name="default_dictionary">
+                        <option value="">All Dictionaries</option>
+                        <?php foreach ($dictionaries as $dict): ?>
+                            <option value="<?php echo (int)$dict['dict_id']; ?>"
+                                <?php echo ((string)$currentDefaultDict === (string)$dict['dict_id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($dict['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Results Per Page</label>
+                    <select class="form-select" name="results_per_page">
+                        <option value="5" <?php echo ((int)$currentResultsPerPage === 5) ? 'selected' : ''; ?>>5</option>
+                        <option value="10" <?php echo ((int)$currentResultsPerPage === 10) ? 'selected' : ''; ?>>10</option>
+                        <option value="20" <?php echo ((int)$currentResultsPerPage === 20) ? 'selected' : ''; ?>>20</option>
+                        <option value="50" <?php echo ((int)$currentResultsPerPage === 50) ? 'selected' : ''; ?>>50</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Dictionary Variant:</label>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="variant" value="american" id="american">
-                        <label class="form-check-label" for="american">
-                            American English
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="variant" value="hindi" id="hindi">
-                        <label class="form-check-label" for="hindi">
-                           हिन्(Hindi)
-                        </label> 
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <!-- Definitions -->
-                <h5 class="mb-3">Definitions & Content</h5>
-
-                <div class="mb-3">
-                    <label class="form-label">Definition Style:</label>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="definition_style" value="simple" id="simple">
-                        <label class="form-check-label" for="concise">Simple </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="definition_style" value="standard" id="standard">
-                        <label class="form-check-label" for="standard">Standard</label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="definition_style" value="detailed" id="detailed">
-                        <label class="form-check-label" for="detailed">Full detailed</label>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="examples" id="examples">
-                        <label class="form-check-label" for="examples">
-                            Example Sentences
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="audio" id="audio">
-                        <label class="form-check-label" for="audio">
-                            Audio Pronunciation
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="etymology" id="etymology">
-                        <label class="form-check-label" for="etymology">
-                            Word Origin (Etymology)
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="synonyms" id="synonyms">
-                        <label class="form-check-label" for="synonyms">
-                            Synonyms & Antonyms
-                        </label>
-                    </div>
-                </div>
-
-                <hr>
-
-                <!-- Accessibility -->
-                <h5 class="mb-3">Accessibility</h5>
-
-                <div class="mb-3">
-                    <label class="form-label">Font Size</label>
-                    <select class="form-select" name="font_size">
-                        <option value="small">Small</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="large">Large</option>
+                    <label class="form-label">Theme</label>
+                    <select class="form-select" name="theme">
+                        <option value="light" <?php echo ($currentTheme === 'light') ? 'selected' : ''; ?>>Light</option>
+                        <option value="dark" <?php echo ($currentTheme === 'dark') ? 'selected' : ''; ?>>Dark</option>
                     </select>
-                </div>
-
-                <div class="mb-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dark_mode" id="dark_mode">
-                        <label class="form-check-label" for="dark_mode">
-                            Dark Mode
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="light_mode" id="light_modet">
-                        <label class="form-check-label" for="light_mode">
-                            Light mode
-                        </label>
-                    </div>
-
                 </div>
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary me-2">
                         Save Changes
                     </button>
-                    <button type="button" class="btn btn-secondary">
+                    <a href="index.php" class="btn btn-secondary">
                         Cancel
-                    </button>
+                    </a>
                 </div>
 
             </form>
@@ -155,8 +137,9 @@
 
 <?php include 'includes/footer.php'; ?>
 
-<!-- Bootstrap JS (optional but recommended) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
+
+<?php $conn->close(); ?>
