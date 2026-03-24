@@ -4,6 +4,7 @@
 require_once __DIR__ . '/includes/db_mysqli.php';
 	
 if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
+	echo "search_query is set.";
     // Get the search query from the form input
     $search_query = "%" . trim($_POST['search_query']) . "%";
     
