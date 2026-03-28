@@ -28,22 +28,15 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
         <div class="card shadow-sm p-4">
             <div class="row g-3 align-items-center">
 
-                <div class="col-md-9">
+                <div class="col-md-3">
                     <form action="search.php" method="POST" action="">
                         <input type="text" name="search_query"
                             class="form-control form-control-lg"
-                            placeholder="Type dictionary name...">
+							class="btn btn-primary btn-lg w-100"
+                            placeholder="Type Search Term...">
                         <input type="submit" name="Search" value="Search">
                     </form>
                 </div>
-
-                <div class="col-md-3">
-                    <button type="button"
-                            class="btn btn-primary btn-lg w-100">
-                        Search
-                    </button>
-                </div>
-
             </div>
         </div>
 
@@ -64,11 +57,28 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                 // If at least 1 result comes back, echo each result
                 if (mysqli_num_rows($result) > 0) {
                     echo "Search Results" . "<br>";
+					echo "<table border='1'>";
+						echo "<thead>";
+						echo "<tr>
+								<th>ID</th>
+								<th>Language One</th>
+								<th>Language Two</th>
+								<th>Language Three</th>
+						echo </tr>";
+						echo "</thead>";
+						echo "<tbody>";
                     // Output data of each row
-                    while($row = mysqli_fetch_assoc($result)) {
+					 while($row = mysqli_fetch_assoc($result)) {
                         // Results get displayed
-                        echo "<h3>id: ".$row["dict_id"]." Language One: ".$row["lang_1"]." Language 2: ".$row["lang_2"]." Language 3: ".$row["lang_3"]."</h3><br>";
+								echo "<tr>";
+									echo "<td>" . $row["dict_id"] . "</td>";
+									echo "<td>" . $row["lang_1"] . "</td>";
+									echo "<td>" . $row["lang_2"] . "</td>";
+									echo "<td>" . $row["lang_3"] . "</td>";
+								echo "</tr>";
+							echo "</tbody>";
                     }
+					echo "</table>";
                 } else {
                     echo "0 results found for your search";
                 }
