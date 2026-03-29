@@ -16,20 +16,26 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 ?>
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
 <main>
     <div class="container mt-5">
-
         <div class="text-center mb-5">
             <h2 class="fw-bold">Search Dictionaries</h2>
             <p class="text-muted">Find dictionaries by name, language, or category.</p>
         </div>
-
+		
         <!-- Search Card -->
         <div class="card shadow-sm p-4">
             <div class="row g-3 align-items-center">
 
                 <div class="col-md-3">
-                    <form action="search.php" method="POST" action="">
+                    <form action="search2.php" method="POST" action="">
                         <input type="text" name="search_query"
                             class="form-control form-control-lg"
 							class="btn btn-primary btn-lg w-100"
@@ -37,6 +43,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                         <input type="submit" name="Search" value="Search">
                     </form>
                 </div>
+			
             </div>
         </div>
 
@@ -57,14 +64,14 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                 // If at least 1 result comes back, echo each result
                 if (mysqli_num_rows($result) > 0) {
                     echo "Search Results" . "<br>";
-					echo "<table border='1'>";
+					echo "<table id='myTable' border='1'>";
 						echo "<thead>";
 						echo "<tr>
 								<th>ID</th>
 								<th>Language One</th>
 								<th>Language Two</th>
 								<th>Language Three</th>
-						echo </tr>";
+						</tr>";
 						echo "</thead>";
 						echo "<tbody>";
                     // Output data of each row
@@ -89,9 +96,23 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
             mysqli_close($conn); // Close the database connection
             ?>
         </div>
+	</div>
 
     </div>
 </main>
+<script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+<script>
+	$(document).ready(function() {
+    $('#myTable').DataTable({
+		"paging": true,
+		"searching": false,
+		"ordering": true,
+		"info": true
+	});
+} );
+</script>
+</body>
+</html>
 
 
 <?php include 'includes/footer.php'; ?>
