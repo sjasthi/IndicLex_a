@@ -6,6 +6,7 @@ require 'vendor/autoload.php';
 
 // get id from url
 $dictID = $_GET['dict'];
+$dict_name = $_GET['name'];
 
 // get each entry in the given dictionary
 $sql = "SELECT lang_1, lang_2, lang_3 FROM dictionary_entries WHERE dict_id = '$dictID'";
@@ -35,8 +36,26 @@ if (is_dir("exports/")) {
 }
 // create xlsx file and save to directory
 $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-$writer->save("exports/dict-".$dictID.".xlsx");
-// redirect to home page
-header("Location: index.php");
+$filePath = "exports/".$dict_name.".xlsx";
+$writer->save("$filePath");
 
+
+// DOWNLOAD FILE TO CLIENT
+// Check if the file exists on the server.
+if (file_exists($filePath)) {
+    // Get the file's basename (e.g., 'myfile.txt')
+    $fileName = basename($filePath);
+
+    header("Content-type: " . mime_content_type($filePath));
+    header("Content-disposition: attachment; filename=" . $fileName); // Force download with specified filename
+    readfile($filePath);
+
+    exit; // Stops further execution after downloading file.
+} else {
+// Handle the case where the file does not exist.
+   echo "Error: File not found.";
+}
+
+// redirect to home page
+//header("Location: index.php");
 ?>
