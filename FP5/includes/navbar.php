@@ -1,3 +1,7 @@
+<?php
+$activePage = basename($_SERVER['PHP_SELF'], ".php");
+?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="index.php">IndicLex</a>
@@ -12,22 +16,22 @@
 
                 <!-- Home -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php">Home</a>
+                    <a class="nav-link <?php if ($activePage == 'index') { echo "active"; } ?>" href="index.php">Home</a>
                 </li>
 
                 <!-- Upload -->
                 <li class="nav-item">
-                    <a class="nav-link" href="upload.php">Upload</a>
+                    <a class="nav-link <?php if ($activePage == 'upload') { echo "active"; } ?>" href="upload.php">Upload</a>
                 </li>
 
                 <!-- Search -->
                 <li class="nav-item">
-                    <a class="nav-link" href="search.php">Search</a>
+                    <a class="nav-link <?php if ($activePage == 'search') { echo "active"; } ?>" href="search.php">Search</a>
                 </li>
 
                 <!-- Preferences -->
                 <li class="nav-item">
-                    <a class="nav-link" href="preferences.php">Preferences</a>
+                    <a class="nav-link <?php if ($activePage == 'preferences') { echo "active"; } ?>" href="preferences.php">Preferences</a>
                 </li>
 
                 <!-- Theme Toggle -->
