@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>IndicLex</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-</head>
-<body>
-
+<?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
 
+<body class="<?php echo $bodyClass ?>">
 <main class="container py-4">
     <section class="hero-section text-center d-flex align-items-center">
         <div class="col-lg-6 justify-content-center container">

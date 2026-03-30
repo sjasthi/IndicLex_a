@@ -15,7 +15,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 }
 ?>
 
-
+<body class="<?php echo $bodyClass ?>">
 <main>
     <div class="container mt-5">
 
@@ -82,6 +82,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 
     </div>
 </main>
+</body>
 
 
 <?php include 'includes/footer.php'; ?>
