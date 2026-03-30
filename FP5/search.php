@@ -15,7 +15,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 }
 ?>
 
-<body class="<?php echo $bodyClass ?>">
+
 <main>
     <div class="container mt-5">
 
@@ -33,16 +33,11 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                         <input type="text" name="search_query"
                             class="form-control form-control-lg"
                             placeholder="Type dictionary name...">
-                        <input type="submit" name="Search" value="Search">
+                        <input type="submit" class="btn btn-primary w-40"></button>
                     </form>
                 </div>
 
-                <div class="col-md-3">
-                    <button type="button"
-                            class="btn btn-primary btn-lg w-100">
-                        Search
-                    </button>
-                </div>
+
 
             </div>
         </div>
@@ -82,7 +77,6 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 
     </div>
 </main>
-</body>
 
 
 <?php include 'includes/footer.php'; ?>
