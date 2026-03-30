@@ -1,3 +1,9 @@
+<?php
+//logic to read the saved theme preference from cookies before rendering the page.
+// If no cookie exists, default to the light theme. 
+$theme = $_COOKIE['pref_theme'] ?? 'light';
+$bodyClass = ($theme === 'dark') ? 'bg-dark text-light' : 'bg-light text-dark';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
