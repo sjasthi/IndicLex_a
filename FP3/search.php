@@ -3,6 +3,10 @@
 <?php
 
 require_once __DIR__ . '/includes/db_mysqli.php';
+
+if(isset($_COOKIE['pref_results'])) {
+	$rows = $_COOKIE['pref_results'];
+}
 	
 if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
     // Get the search query from the form input
@@ -36,7 +40,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 
                 <div class="col-md-3">
                     <form action="search2.php" method="POST" action="">
-                        <input type="text" name="search_query"
+                        <input type="text" name="search_query" size = "50"
                             class="form-control form-control-lg"
 							class="btn btn-primary btn-lg w-100"
                             placeholder="Type Search Term...">
@@ -107,7 +111,10 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 		"paging": true,
 		"searching": false,
 		"ordering": true,
-		"info": true
+		"info": true,
+		"processing": true,
+		"serverSide": true,
+		"ajax": "preference.php"
 	});
 } );
 </script>
