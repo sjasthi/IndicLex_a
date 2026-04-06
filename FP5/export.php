@@ -8,13 +8,26 @@ require 'vendor/autoload.php';
 $dictID = $_GET['dict'];
 $dict_name = $_GET['name'];
 
+$format = "xslx";
+if (isset($_POST['export-format'])) {
+    $format = $_POST['export-format'];
+}
+
 // get each entry in the given dictionary
 $sql = "SELECT lang_1, lang_2, lang_3 FROM dictionary_entries WHERE dict_id = '$dictID'";
 $result = $conn->query($sql);
 
 // create spreadsheet
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+
+if ($format == "xslx") {
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+} elseif ($format == "csv") {
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+} elseif ($format == "html") {
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Html($spreadsheet);
+}
+
 // if dictionary has any entries
 if ($result->num_rows > 0) {
     $i = 1;
@@ -34,8 +47,9 @@ if (is_dir("exports/")) {
 } else {
     mkdir("exports/");
 }
+
 // create xlsx file and save to directory
-$filePath = "exports/".$dict_name.".xlsx";
+$filePath = "exports/".$dict_name;//.".".$format;
 $writer->save("$filePath");
 
 
@@ -52,8 +66,9 @@ if (file_exists($filePath)) {
     exit; // Stops further execution after downloading file.
 } else {
 // Handle the case where the file does not exist.
-   echo "Error: File not found.";
+echo "Error: File not found.";
 }
+
 
 // redirect to home page
 header("Location: index.php");

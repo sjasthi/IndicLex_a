@@ -63,10 +63,17 @@ if ($result) {
                  href="search.php?dict=<?php echo (int)$d['dict_id']; ?>">
                 Search this dictionary
               </a>
-              <a class="btn btn-outline-primary btn-sm"
-                 href="export.php?dict=<?php echo (int)$d['dict_id'];?>&name=<?php echo $d['name']?>">
-                Export this dictionary
-              </a>
+              <div class="row">
+                <form method="POST" action="export.php?dict=<?php echo (int)$d['dict_id'];?>&name=<?php echo $d['name']?>">
+                  <select class="" name="export-format">
+                    <option value="xslx">.xslx</option>
+                    <option value="csv">.csv</option>
+                    <option value="html">.html</option>
+                    <!-- <option value="50" <?php // echo ((int)$currentResultsPerPage === 50) ? 'selected' : ''; ?>>50</option> -->
+                  </select>
+                  <input type="submit" name="export-submit" value="Export" class="btn btn-outline-primary btn-sm">
+                </form>
+              </div>
             </div>
           </div>
         </div>
