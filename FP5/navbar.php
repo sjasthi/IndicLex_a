@@ -36,7 +36,7 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
 
                 <!-- Theme Toggle -->
                 <li class="nav-item">
-                    <button class="btn btn-outline-light btn-sm ms-3" onclick="toggleTheme()">
+                    <button class="btn btn-outline-light btn-sm ms-3" id="toggleThemeBtn">
                         Toggle Theme
                     </button>
                 </li>
