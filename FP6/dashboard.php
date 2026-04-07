@@ -77,16 +77,7 @@ if ($langResult) {
 ?>
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
-<body class="bg-light">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-semibold" href="dashboard.php">IndicLex Admin</a>
-        <div class="ms-auto">
-            <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
-        </div>
-    </div>
-</nav>
+<body>
 
 <main class="container py-4">
     <div class="mb-4">
