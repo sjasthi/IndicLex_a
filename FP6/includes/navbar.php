@@ -34,6 +34,10 @@ $isAdminLoggedIn = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="dictionary.php">Dictionary</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="preferences.php">Preferences</a>
                 </li>
 
