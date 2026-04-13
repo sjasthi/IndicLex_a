@@ -2,7 +2,6 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 $isAdminLoggedIn = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
 
@@ -22,19 +21,11 @@ $isAdminLoggedIn = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="catalog.php">Catalog</a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link" href="upload.php">Upload</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="search.php">Search</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="dictionary.php">Dictionary</a>
                 </li>
 
                 <li class="nav-item">
@@ -55,7 +46,7 @@ $isAdminLoggedIn = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                 <?php endif; ?>
 
                 <li class="nav-item">
-                    <button class="btn btn-outline-light btn-sm ms-3" onclick="toggleTheme()">
+                    <button class="btn btn-outline-light btn-sm ms-3" id="toggleThemeBtn">
                         Toggle Theme
                     </button>
                 </li>
