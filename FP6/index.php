@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+session_start();
 require_once __DIR__ . '/includes/db_mysqli.php';
 
 $sql = "SELECT dict_id, dict_identifier, name, description FROM dictionaries ORDER BY name ASC";
@@ -20,7 +20,7 @@ if ($result) {
 
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
-<body class="<?php echo $bodyClass ?>">
+<body>
 <main>
     <section class="hero-section text-center d-flex align-items-center">
         <div class="container">
@@ -65,7 +65,7 @@ if ($result) {
               </a>
               <div class="row">
                 <form method="POST" action="export.php?dict=<?php echo (int)$d['dict_id'];?>&name=<?php echo $d['name']?>">
-                  <select class="" name="export-format">
+                  <select  class="btn btn-outline-primary btn-sm" name="export-format">
                     <option value="xslx">.xslx</option>
                     <option value="csv">.csv</option>
                     <option value="html">.html</option>
@@ -74,6 +74,13 @@ if ($result) {
                   <input type="submit" name="export-submit" value="Export" class="btn btn-outline-primary btn-sm">
                 </form>
               </div>
+
+              <?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
+                <form method="POST" action="entry_manager.php?dict=<?php echo (int)$d['dict_id'];?>">
+                  <input type="submit" name="manageEntries" value="Manage Entries" class="btn btn-outline-warning btn-sm">
+                </form>
+              <?php endif; ?>
+
             </div>
           </div>
         </div>

@@ -85,16 +85,17 @@ if ($entryResult) {
 ?>
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
-<body>
+<body class="">
 
 <main class="container py-4">
     <div class="mb-4">
-        <h1 class="h1 mb-1">Entry Manager</h1>
+        <h1 class="h1 mb-1">Entry Manager</h1><br>
         <h3 class="h3 mb-0"><?php echo $dictName; ?></h4>
         <p class="mb-0"><?php echo $dictDesc; ?></p>
     </div>
 
-    <div class="mb-4">
+    <div class="card">
+    <div class="mb-4 card-body">
         <h4 class="h4 mb-1">Add Entry</h4>
         <table>
             <thead>
@@ -110,16 +111,18 @@ if ($entryResult) {
                     <td><input class="w-100" type="text" name="addlang2" value="" placeholder="Language Two" required></td>
                     <td><input class="w-100" type="text" name="addlang3" value="" placeholder="Language Three"></td>
                     <td>
-                        <input type="submit" name="add" value="Add">
+                        <button type="submit" name="add" class="btn btn-outline-primary btn-sm">Add</button>
                     </td>
                 </form>
             </tbody>
         </table>
     </div>
+    </div>
+    <br>
 
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
-            <h2 class="h5 mb-3">Entries</h2>
+            <h2 class="h2 mb-3">Manage Entries</h2>
             <div class="table-responsive">
                 <table id="dictionaryTable" class="table table-striped table-bordered align-middle w-100">
                     <thead>
@@ -140,8 +143,8 @@ if ($entryResult) {
                                 <td><input class="w-100" type="text" name="lang2" value="<?php echo htmlspecialchars($row['lang_2']); ?>"></td>
                                 <td><input class="w-100" type="text" name="lang3" value="<?php echo htmlspecialchars($row['lang_3']); ?>"></td>
                                 <td>
-                                    <input type="submit" name="update" value="Update">
-                                    <input type="submit" name="delete" value="Delete">
+                                    <button type="submit" name="update" class="btn btn-outline-primary btn-sm">Update</button>
+                                    <button type="submit" name="delete" class="btn btn-outline-danger btn-sm">Delete</button>
                                 </td>
                                 </form>
                             </tr>
@@ -167,6 +170,7 @@ $(document).ready(function () {
     });
 });
 </script>
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>
 <?php $conn->close(); ?>

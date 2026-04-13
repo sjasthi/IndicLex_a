@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+<?php include 'includes/navbar.php'; ?>
 <body class="bg-light">
 <div class="container mt-5">
     <div class="card p-4 shadow-sm mx-auto" style="max-width: 400px;">
@@ -64,4 +65,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </div>
 </body>
+<?php include 'includes/footer.php'; ?>
 </html>
