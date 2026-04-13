@@ -5,28 +5,35 @@
 require_once __DIR__ . '/includes/db_mysqli.php';
 //include 'dbname.php'; 
 
-$result = $conn->query("SELECT * FROM dictionary_entries");
+$result = $conn->query("SELECT * FROM dictionaries");
 
 $update = false;
 $dict_id = '';
-$lang_1 = '';
-$lang_2 = '';
-$lang_3 = '';
+$dict_identifier = '';
+$name = '';
+$type = '';
+$source_lang_1 = '';
+$source_lang_2 = '';
+$source_lang_3 = '';
 ?>
 
 <?php
 	if (isset($_POST['save'])) {
     $dict_id = $_POST['dict_id'];
-    $lang_1 = $_POST['lang_1'];
-	$lang_2 = $_POST['lang_2'];
-	$lang_3 = $_POST['lang_3'];
-    $conn->query("INSERT INTO dictionary_entries (dict_id, lang_1, lang_2, lang_3) VALUES ('$dict_id', '$lang_1', '$lang_2', '$lang_3')");
+    $dict_identifier = $_POST['dict_identifier'];
+	$name = $_POST['name'];
+	$type = $_POST['type'];
+	$source_lang_1 = $_POST['source_lang_1'];
+	$source_lang_2 = $_POST['source_lang_2'];
+	$source_lang_3 = $_POST['source_lang_3'];
+    $conn->query("INSERT INTO dictionaries (dict_id, dict_identifier, name, type, source_lang_1, source_lang_2, source_lang_3)
+	VALUES ('$dict_id', '$dict_identifier', '$name', '$type', '$source_lang_1', '$source_lang_2', '$source_lang_3')");
 	header("location: dictionary.php");
 	}
 
 	if (isset($_GET['delete'])){
 	$dict_id = $_GET['delete'];
-	$stmt = $conn->prepare("DELETE FROM dictionary_entries WHERE dict_id=?");
+	$stmt = $conn->prepare("DELETE FROM dictionaries WHERE dict_id=?");
 	$stmt->bind_param("i", $dict_id);
 	$stmt->execute();							
 	header("location: dictionary.php");
@@ -35,17 +42,21 @@ $lang_3 = '';
 	if (isset($_GET['edit'])){
 		$dict_id = $_GET['edit'];
 		$update = true;
-		$result = $conn->query("SELECT * from dictionary_entries WHERE dict_id=$dict_id");
+		$result = $conn->query("SELECT * from dictionaries WHERE dict_id=$dict_id");
 		
 	}
 	
 	if (isset($_POST['update'])){
 		$dict_id = $_POST['dict_id'];
-		$lang_1 = $_POST['lang_1'];
-		$lang_2 = $_POST['lang_2'];
-		$lang_3 = $_POST['lang_3'];
+		$dict_identifier = $_POST['dict_identifier'];
+		$name = $_POST['name'];
+		$type = $_POST['type'];
+		$source_lang_1 = $_POST['source_lang_1'];
+		$source_lang_2 = $_POST['source_lang_2'];
+		$source_lang_3 = $_POST['source_lang_3'];
 		
-		$conn->query("UPDATE IGNORE dictionary_entries SET dict_id='$dict_id', lang_1='$lang_1', lang_2='$lang_2', lang_3='$lang_3' WHERE dict_id=$dict_id");
+		$conn->query("UPDATE IGNORE dictionaries SET dict_id='$dict_id', dict_identifier='$dict_identifier', name='$name', type='$type',
+		source_lang_1='$source_lang_1', source_lang_2='$source_lang_2', source_lang_3='$source_lang_3' WHERE dict_id=$dict_id");
 		
 		header("location: dictionary.php");
 	}
@@ -80,16 +91,19 @@ $lang_3 = '';
 	<div class="container">
 	<h2>Dictionary Manager</h2>
     <table border="1">
-        <tr><th>entry_id</th><th>dict_id</th><th>lang_1</th><th>lang_2</th><th>lang_3</th></tr>
+        <tr><th>dict_id</th><th>dict_identifier</th><th>name</th><th>type</th>
+		<th>source_lang_1</th><th>source_lang_2</th><th>source_lang_3</th></tr>
         <?php
-        $result = $conn->query("SELECT * FROM dictionary_entries");
+        $result = $conn->query("SELECT * FROM dictionaries");
         while($row = $result->fetch_assoc()): ?>
         <tr>
-			<td><?php echo $row['entry_id']; ?></td>
-            <td><?php echo $row['dict_id']; ?></td>
-            <td><?php echo $row['lang_1']; ?></td>
-			<td><?php echo $row['lang_2']; ?></td>
-			<td><?php echo $row['lang_3']; ?></td>
+			<td><?php echo $row['dict_id']; ?></td>
+            <td><?php echo $row['dict_identifier']; ?></td>
+            <td><?php echo $row['name']; ?></td>
+			<td><?php echo $row['type']; ?></td>
+			<td><?php echo $row['source_lang_1']; ?></td>
+			<td><?php echo $row['source_lang_2']; ?></td>
+			<td><?php echo $row['source_lang_3']; ?></td>
 			<td> <a href= "dictionary.php?edit=<?php echo $row['dict_id'] ?>"
 					class="btn btn-info">Edit</a>
 				<a href="dictionary.php?delete=<?php echo $row['dict_id'] ?>"
@@ -105,27 +119,45 @@ $lang_3 = '';
 		<input type="hidden" name="dict_id" value="<?php echo $dict_id; ?>">
 		
 		<div class="form-group">
-		<label>dict_id</label>
+		<label>Dict_Id</label>
 		<input type="text" name="dict_id" class="form-control" 
 			   value= "<?php echo $dict_id; ?>" placeholder="Enter dict_id">
 		</div>
 		
 		<div class="form-group">
-		<label>lang_1</label>
-		<input type="text" name="lang_1" class="form-control" 
-			   value= "<?php echo $lang_1; ?>" placeholder="Enter lang_1">
+		<label>Dict_Identifer</label>
+		<input type="text" name="dict_identifier" class="form-control" 
+			   value= "<?php echo $dict_identifier; ?>" placeholder="Enter dict_identifer">
 		</div>
 		
 		<div class="form-group">
-		<label>lang_2</label>
-		<input type="text" name="lang_2" class="form-control" 
-			   value= "<?php echo $lang_2; ?>" placeholder="Enter lang_2">
+		<label>Name</label>
+		<input type="text" name="name" class="form-control" 
+			   value= "<?php echo $name; ?>" placeholder="Enter name">
 		</div>
 		
 		<div class="form-group">
-		<label>lang_3</label>
-		<input type="text" name="lang_3" class="form-control" 
-			   value= "<?php echo $lang_3; ?>" placeholder="Enter lang_3">
+		<label>Type</label>
+		<input type="text" name="type" class="form-control" 
+			   value= "<?php echo $type; ?>" placeholder="Enter type">
+		</div>
+		
+		<div class="form-group">
+		<label>Source_Lang_1</label>
+		<input type="text" name="source_lang_1" class="form-control" 
+			   value= "<?php echo $source_lang_1; ?>" placeholder="Enter lang_1">
+		</div>
+		
+		<div class="form-group">
+		<label>Source_Lang_2</label>
+		<input type="text" name="source_lang_2" class="form-control" 
+			   value= "<?php echo $source_lang_2; ?>" placeholder="Enter lang_2">
+		</div>
+		
+		<div class="form-group">
+		<label>Source_Lang_3</label>
+		<input type="text" name="source_lang_3" class="form-control" 
+			   value= "<?php echo $source_lang_3; ?>" placeholder="Enter lang_3">
 		</div>
 		
 		<div class="form-group">
