@@ -75,6 +75,7 @@ $source_lang_3 = '';
 }
 </style>
   <title>Dictionary</title>
+  	<h2>Dictionary Manager</h2>
 </head>
 <body
 
@@ -89,10 +90,13 @@ $source_lang_3 = '';
 	<?php endif ?>
 	
 	<div class="container">
-	<h2>Dictionary Manager</h2>
-    <table border="1">
+	<table id='dictionaryTable' class='display' border='1'>
+	<thead>
         <tr><th>dict_id</th><th>dict_identifier</th><th>name</th><th>type</th>
-		<th>source_lang_1</th><th>source_lang_2</th><th>source_lang_3</th></tr>
+		<th>source_lang_1</th><th>source_lang_2</th><th>source_lang_3</th>
+		<th>Manage</th></tr>
+	</thead>
+		<tbody>
         <?php
         $result = $conn->query("SELECT * FROM dictionaries");
         while($row = $result->fetch_assoc()): ?>
@@ -104,13 +108,14 @@ $source_lang_3 = '';
 			<td><?php echo $row['source_lang_1']; ?></td>
 			<td><?php echo $row['source_lang_2']; ?></td>
 			<td><?php echo $row['source_lang_3']; ?></td>
-			<td> <a href= "dictionary.php?edit=<?php echo $row['dict_id'] ?>"
+			<td>    <a href= "dictionary.php?edit=<?php echo $row['dict_id'] ?>"
 					class="btn btn-info">Edit</a>
-				<a href="dictionary.php?delete=<?php echo $row['dict_id'] ?>"
+					<a href="dictionary.php?delete=<?php echo $row['dict_id'] ?>"
 					class="btn btn-danger">Delete</a>
 			</td>
         </tr>
         <?php endwhile; ?>
+	</tbody>
 	</table>
 	
 	
@@ -173,8 +178,26 @@ $source_lang_3 = '';
 	</div>
 
   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('#dictionaryTable').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true
+    });
+});
+</script>
 </body>
 </html>
 
+<?php mysqli_close($conn); // Close the database connection ?>
+<?php include 'includes/footer.php'; ?>
+
+</body>
+</html>
 
 <?php include 'includes/footer.php'; ?>
