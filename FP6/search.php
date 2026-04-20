@@ -54,22 +54,21 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
     
         <!-- Placeholder Results Section -->
         <div class="mt-5 text-center text-muted">
-            
-            <?php
+            <table id='myTable' border='1'>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Language One</th>
+					<th>Language Two</th>
+					<th>Language Three</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
             if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                 // If at least 1 result comes back, echo each result
                 if (mysqli_num_rows($result) > 0) {
                     //echo "Search Results" . "<br>";
-					echo "<table id='myTable' border='1'>";
-						echo "<thead>";
-						echo "<tr>
-								<th>ID</th>
-								<th>Language One</th>
-								<th>Language Two</th>
-								<th>Language Three</th>
-						    </tr>";
-						echo "</thead>";
-						echo "<tbody>";
                     // Output data of each row
 					 while($row = mysqli_fetch_assoc($result)) {
                         // Results get displayed
@@ -79,9 +78,7 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 									echo "<td>" . $row["lang_2"] . "</td>";
 									echo "<td>" . $row["lang_3"] . "</td>";
 								echo "</tr>";
-							echo "</tbody>";
                     }
-					echo "</table>";
                 } else {
                     echo "0 results found for your search";
                 }
@@ -89,11 +86,11 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                 echo "<h5>Results will appear here</h5>";
             }
 
-            mysqli_close($conn); // Close the database connection
             ?>
+			</tbody>
+			</table>
         </div>
 	</div>
-
     </div>
 </main>
 
@@ -110,6 +107,8 @@ $(document).ready(function() {
     });
 });
 </script>
+<?php include 'includes/footer.php'; ?>
+<?php mysqli_close($conn); // Close the database connection ?>
 </body>
 </html>
 
