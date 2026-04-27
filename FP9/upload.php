@@ -131,28 +131,31 @@ function processFile($target_file) {
     if ($result->num_rows > 0) {
         $dictID = $result->fetch_assoc()['dict_id'];
         echo "Dicitonary already in database: ".$dictID.".";
-    } else {
-        // Add dictionary to database
-        if ($langThree == null) { // if bilingual
-            $sql = "INSERT INTO dictionaries (dict_identifier, name, type, source_lang_1, source_lang_2, description) 
-                VALUES ('$dictIdentifier', '$dictName', '$dictType', '$langOne', '$langTwo', '$dictDesc')";
-        } else { // if trilingual
-            $sql = "INSERT INTO dictionaries (dict_identifier, name, type, source_lang_1, source_lang_2, source_lang_3, description) 
-                VALUES ('$dictIdentifier', '$dictName', '$dictType', '$langOne', '$langTwo', '$langThree', '$dictDesc')";
-        }
-        if ($conn->query($sql) === TRUE) {
-            echo "New dictionary created successfully";
-            // Get id of new dictionary
-            $sql = "SELECT dict_id FROM dictionaries WHERE dict_identifier='$dictIdentifier'";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-                $dictID = $result->fetch_assoc()['dict_id'];
-                echo "Created dictionary with ID: ".$dictID.".";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+        $dictIdentifier = $dictIdentifier.$result->num_rows;
+        echo "New Dict ID: ".$dictIdentifier;
+    }  
+    
+    // Add dictionary to database
+    if ($langThree == null) { // if bilingual
+        $sql = "INSERT INTO dictionaries (dict_identifier, name, type, source_lang_1, source_lang_2, description) 
+            VALUES ('$dictIdentifier', '$dictName', '$dictType', '$langOne', '$langTwo', '$dictDesc')";
+    } else { // if trilingual
+        $sql = "INSERT INTO dictionaries (dict_identifier, name, type, source_lang_1, source_lang_2, source_lang_3, description) 
+            VALUES ('$dictIdentifier', '$dictName', '$dictType', '$langOne', '$langTwo', '$langThree', '$dictDesc')";
+    }
+    if ($conn->query($sql) === TRUE) {
+        echo "New dictionary created successfully";
+        // Get id of new dictionary
+        $sql = "SELECT dict_id FROM dictionaries WHERE dict_identifier='$dictIdentifier'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $dictID = $result->fetch_assoc()['dict_id'];
+            echo "Created dictionary with ID: ".$dictID.".";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
+    
     
     // get each row of the spreadsheet
     foreach ($worksheet->getRowIterator() as $row) {
