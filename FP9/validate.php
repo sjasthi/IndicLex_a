@@ -66,6 +66,7 @@ if ($entryResult) {
             <h5>ID: <?php echo $dictID; ?></h5>
             <h5><?php echo $dictType; ?> (<?php echo $dictLang1." ".$dictLang2." ".$dictLang3 ?>)</h5>
             <p><?php echo $dictDesc; ?></p>
+            <a href="entry_manager.php?dict=<?php echo $dictID ?>" class="btn btn-sm btn-primary">Manage Entries</a>
         </div>
     </div>
 
@@ -86,6 +87,7 @@ if ($entryResult) {
                 ?>
                 <?php if ($dupResult->num_rows > 0): ?>
                     <?php $duplicateCount += 1; ?>
+                    <hr><br>
                     <h3> <?php echo "Entry ".$e['entry_id'].", <strong>".$e['lang_1']." / ".$e['lang_2']." / ".$e['lang_3']."</strong> has duplicates:"; ?> </h3>
                     <table class="table table-striped table-bordered align-middle w-100">
                     <thead>
@@ -119,6 +121,8 @@ if ($entryResult) {
                     <?php echo "<br>"; ?>
                     </tbody>
                     </table>
+                    <br><hr><br>
+                    
                 <?php endif; ?>
             <?php endforeach; ?>
             <?php if ($duplicateCount < 1): ?>
