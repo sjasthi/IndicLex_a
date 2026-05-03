@@ -41,21 +41,19 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                         <input type="text" name="search_query" size = "50"
                             class="form-control form-control-lg"
                             placeholder="Type Search Term...">
-                        <input type="submit" name="Search" value="Search" class="btn btn-primary btn-lg">
-                    </form>
+                        <select name="mode">
+							<option value="exact" >Exact Match</option>
+							<option value="substring" >Substring</option>
+							<option value="prefix" >Prefix</option>
+							<option value="suffix" >Suffix</option>
+						</select>
+						<input type="submit" name="Search" value="Search" class="btn btn-primary btn-lg">
+					</form>
                 </div>
 			
             </div>
         </div>
 
-        <label>Mode:</label>
-        <select name="mode">
-        <option value="exact">Exact</option>
-        <option value="prefix">Prefix</option>
-        <option value="suffix">Suffix</option>
-        <option value="substring">Substring</option>
-            </select>
-            <br><br> 
     
         <!-- Placeholder Results Section -->
         <div class="mt-5 text-center text-muted">
@@ -72,17 +70,42 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
 			<?php
             if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
                 // If at least 1 result comes back, echo each result
+				$search_query = $_POST['search_query'];
+				$mode = $_POST['mode'];
+				
+				$sql = "Select dict_id, lang_1, lang_2, lang_3 FROM dictionary_entries WHERE 1=1";
+				switch ($mode) {
+				case 'prefix':
+				// WORKING
+					$sql .= " AND (lang_1 LIKE '$search_query%' OR lang_2 LIKE '$search_query%' OR lang_3 LIKE '$search_query%')";
+				break;
+				case 'suffix':
+				// WORKING
+					$sql .= " AND (lang_1 LIKE '%$search_query' OR lang_2 LIKE '%$search_query' OR lang_3 LIKE '%$search_query')";
+				break;
+				case 'substring':
+				// WORKING
+					$sql .= " AND (lang_1 LIKE '%$search_query%' OR lang_2 LIKE '%$search_query%' OR lang_3 LIKE '%$search_query%')";
+				break;
+				case 'exact': // WORKING
+				default:
+				// WORKING
+					$sql .= " AND lang_1 = '$search_query' OR lang_2 LIKE '$search_query' OR lang_3 LIKE '$search_query'";
+				break;
+}		
+				$result = $conn->query($sql);
                 if (mysqli_num_rows($result) > 0) {
                     //echo "Search Results" . "<br>";
                     // Output data of each row
-					 while($row = mysqli_fetch_assoc($result)) {
+					
+					while($row = mysqli_fetch_assoc($result)) {
                         // Results get displayed
-                        echo "<tr>";
-                            echo "<td>" . $row["dict_id"] . "</td>";
-                            echo "<td>" . $row["lang_1"] . "</td>";
-                            echo "<td>" . $row["lang_2"] . "</td>";
-                            echo "<td>" . $row["lang_3"] . "</td>";
-                        echo "</tr>";
+								echo "<tr>";
+									echo "<td>" . $row["dict_id"] . "</td>";
+									echo "<td>" . $row["lang_1"] . "</td>";
+									echo "<td>" . $row["lang_2"] . "</td>";
+									echo "<td>" . $row["lang_3"] . "</td>";
+								echo "</tr>";
                     }
                 } else {
                     echo "0 results found for your search";
