@@ -61,6 +61,10 @@ This directory should not contain any files, and is used for uploading .xlsx fil
 ### /vendor/
 This directory contains code used by the PHPSpreadsheet library, and is necessary to upload dictionaries using the upload.php page.
 
+## Uploading Files
+Files can be uploaded via the upload.php page, visible in the navbar. It accepts .xlsx files, in the following format:
+|Lang 1|Lang 2|Lang 3(optional)|
+
 ## Database
 
 The project uses a MySQL database with tables such as:
