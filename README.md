@@ -61,10 +61,13 @@ This directory should not contain any files, and is used for uploading .xlsx fil
 ### /vendor/
 This directory contains code used by the PHPSpreadsheet library, and is necessary to upload dictionaries using the upload.php page.
 
-## Uploading Files
+## Uploading Files and Dictionary Management
 Files can be uploaded via the upload.php page, visible in the navbar. It accepts .xlsx files, in the following format:
 |Lang 1|Lang 2|Lang 3(optional)|
 |-----|-----|-----|
+Along with the .xslx file, the user can specify the name, description, and the 2 or 3 languages of the dicitonary.
+
+When signed in as an Admin, the dashboard page is available. From here, you can validate and compare dictionaries, and edit or delete them.
 
 ## Database
 
