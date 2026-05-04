@@ -64,6 +64,7 @@ This directory contains code used by the PHPSpreadsheet library, and is necessar
 ## Uploading Files
 Files can be uploaded via the upload.php page, visible in the navbar. It accepts .xlsx files, in the following format:
 |Lang 1|Lang 2|Lang 3(optional)|
+|-----|-----|-----|
 
 ## Database
 
