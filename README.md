@@ -1,5 +1,5 @@
-# indiclex
-Management of Dictionaries
+# IndicLex
+### Management of Dictionaries
 Project Overview
 
 IndicLex helps users manage dictionaries, upload dictionary data, search entries, and browse dictionary information in a simple web interface.
@@ -13,9 +13,6 @@ IndicLex helps users manage dictionaries, upload dictionary data, search entries
 - User login and admin dashboard
 - Export support for dictionary data
 - Theme and preference support
-
-
-
 
 
 - `GET /api/search`
@@ -32,7 +29,11 @@ IndicLex helps users manage dictionaries, upload dictionary data, search entries
 - Public search page autocomplete using jQuery AJAX
 - Word Length Matching link to an external puzzle resource
 - Clean API routing with `.htaccess`
-Installation
+
+
+
+
+## Installation
 
 1. Clone the repository.
 2. Import the SQL schema from the `sql/` folder into your database.
@@ -42,6 +43,23 @@ Installation
 6. Open the project in your browser.
 
 ---
+
+## Project Structure
+
+### indiclex_a
+This main directory is for the public-facing webpages on the website, such as index.php, search.php, etc.
+
+### /api/
+The API directory holds files used for API endpoints.
+
+### /includes/
+This directory holds helper php pages, like the header, navbar, footer, and database connection.
+
+### /uploads/
+This directory should not contain any files, and is used for uploading .xlsx files into the database. This folder should be created automatically if it is not present upon uploading. Files in this folder are deleted when they are successfully added to the database.
+
+### /vendor/
+This directory contains code used by the PHPSpreadsheet library, and is necessary to upload dictionaries using the upload.php page.
 
 ## Database
 

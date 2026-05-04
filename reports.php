@@ -60,18 +60,16 @@ while ($row = mysqli_fetch_assoc($res)) {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
+<?php include 'includes/header.php'; ?>
+<?php include 'includes/navbar.php'; ?>
+
 <head>
     <title>IndicLex Reports</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         body {
             font-family: Arial;
-            background: #1f2328;
-            color: white;
             padding: 20px;
         }
 
@@ -87,7 +85,6 @@ while ($row = mysqli_fetch_assoc($res)) {
 
         .box {
             flex: 1;
-            background: #2b3137;
             padding: 15px;
             border-radius: 10px;
             text-align: center;
@@ -100,12 +97,12 @@ while ($row = mysqli_fetch_assoc($res)) {
         }
 
         .card {
-            background: #2b3137;
             padding: 20px;
             border-radius: 10px;
         }
     </style>
 </head>
+
 
 <body>
 
