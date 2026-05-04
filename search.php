@@ -1,83 +1,51 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/navbar.php'; ?>
 <?php
-    // Variables used to connect to the server
-    $servername = "localhost";
-    $username = "icsbinco_indiclex_a_db_user";
-    $password = "ICS_anna";
-    $dbname = "icsbinco_indiclex_a_db";
 
-    // Establish connection to the server
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Throw error if connection fails
-    if ($conn->connect_error) {
-          die("Connection failed: " . $conn->connect_error);
-    }
+require_once __DIR__ . '/includes/db_mysqli.php';
+
+if(isset($_COOKIE['pref_results'])) {
+	$rows = $_COOKIE['pref_results'];
+}
 	
 if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
     // Get the search query from the form input
     $search_query = "%" . trim($_POST['search_query']) . "%";
-    
-	// SQL query to run
-	$sql = "Select dict_id, lang_1, lang_2 FROM dictionary_entries";
-    
-    // Prepare the statement
-    $stmt = $conn->prepare($sql);
-    
-    // Bind the parameters (s = string, bind the search query to the three placeholders)
-    $stmt->bind_param("sss", $search_query, $search_query, $search_query);
-    
-    // Execute the query
-    $stmt->execute();
-    
-    // Get the result set
-    $result = $stmt->get_result();
+    //echo $search_query;
 
-    // If at least 1 result comes back, echo each result
-	if (mysqli_num_rows($result) > 0) {
-            echo "Search Results" . "<br>";
-            // Output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                echo "id: " . $row["dict_id"] . " Tegulu: " . $row["lang_1"] . " English: ". $row["lang_2"] . "<br>";
-            }
-        } else {
-            echo "0 results found for your search";
-        }
-        mysqli_close($conn); // Close the database connection
-        mysqli_close($conn); // Close the database connection
+	// SQL query to run
+	$sql = "Select dict_id, lang_1, lang_2, lang_3 FROM dictionary_entries WHERE lang_1 LIKE '$search_query' OR lang_2 LIKE '$search_query' OR lang_3 LIKE '$search_query'";
+    $result = $conn->query($sql);
 }
 ?>
 
-
+<body class="<?php echo $bodyClass ?>">
 <main>
     <div class="container mt-5">
-
         <div class="text-center mb-5">
             <h2 class="fw-bold">Search Dictionaries</h2>
             <p class="text-muted">Find dictionaries by name, language, or category.</p>
         </div>
-
+		
         <!-- Search Card -->
         <div class="card shadow-sm p-4">
-            <form>
-                <div class="row g-3 align-items-center">
+            <div class="row g-3 align-items-center">
 
-                    <div class="col-md-9">
-                        <form method="GET" action="">
-							<input type="text"
-                               class="form-control form-control-lg"
-                               placeholder="Type dictionary name...">
-                    </div>
-
-                    <div class="col-md-3">
-                        <button type="button"
-                                class="btn btn-primary btn-lg w-100">
-                            Search
-                        </button>
-                    </div>
-
+                <div class="row">
+                    <form action="search.php" method="POST" action="">
+                        <input type="text" name="search_query" size = "50"
+                            class="form-control form-control-lg"
+                            placeholder="Type Search Term...">
+                        <input type="submit" name="Search" value="Search" class="btn btn-primary btn-lg">
+                    </form>
                 </div>
-            </form>
+			
+            </div>
         </div>
 
         <label>Mode:</label>
@@ -87,16 +55,67 @@ if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
         <option value="suffix">Suffix</option>
         <option value="substring">Substring</option>
             </select>
-            <br><br> 
-    
+            <br><br>
+                
         <!-- Placeholder Results Section -->
         <div class="mt-5 text-center text-muted">
-            <h5>Results will appear here</h5>
-            <p class="small">Search functionality will be connected to the database later.</p>
-        </div>
+            <table id='myTable' border='1'>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Language One</th>
+					<th>Language Two</th>
+					<th>Language Three</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+            if (isset($_POST['search_query']) && !empty(trim($_POST['search_query']))) {
+                // If at least 1 result comes back, echo each result
+                if (mysqli_num_rows($result) > 0) {
+                    //echo "Search Results" . "<br>";
+                    // Output data of each row
+					 while($row = mysqli_fetch_assoc($result)) {
+                        // Results get displayed
+                        echo "<tr>";
+                            echo "<td>" . $row["dict_id"] . "</td>";
+                            echo "<td>" . $row["lang_1"] . "</td>";
+                            echo "<td>" . $row["lang_2"] . "</td>";
+                            echo "<td>" . $row["lang_3"] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "0 results found for your search";
+                }
+            } else {
+                echo "<h5>Results will appear here</h5>";
+            }
 
+            ?>
+			</tbody>
+			</table>
+        </div>
+	</div>
     </div>
 </main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+    });
+});
+</script>
+<?php include 'includes/footer.php'; ?>
+<?php mysqli_close($conn); // Close the database connection ?>
+</body>
+</html>
 
 
 <?php include 'includes/footer.php'; ?>

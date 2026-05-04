@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet" />
+      <title>Untitled Spreadsheet</title>
+      <meta name="author" content="Unknown Creator" />
+      <meta name="title" content="Untitled Spreadsheet" />
+      <meta name="lastModifiedBy" content="Unknown Creator" />
+      <meta name="created" content="2026-04-13T23:48:20+02:00" />
+      <meta name="modified" content="2026-04-13T23:48:20+02:00" />
+    <style type="text/css">
+      html { font-family:Calibri, Arial, Helvetica, sans-serif; font-size:11pt; background-color:white }
+      a.comment-indicator:hover + div.comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em }
+      a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em }
+      div.comment { display:none }
+      table { border-collapse:collapse }
+      .b { text-align:center }
+      .e { text-align:center }
+      .f { text-align:right }
+      .inlineStr { text-align:left }
+      .n { text-align:right }
+      .s { text-align:left }
+      .floatright { float:right }
+      .floatleft { float:left }
+      td.style0, th.style0 { vertical-align:bottom; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:11pt }
+      table.sheet0 col.col0 { width:42pt }
+      table.sheet0 col.col1 { width:42pt }
+      table.sheet0 col.col2 { width:42pt }
+      table.sheet0 tr { height:15pt }
+@page page0 { margin-left: 0.7in; margin-right: 0.7in; margin-top: 0.75in; margin-bottom: 0.75in; }
+.navigation {page-break-after: always;}
+.scrpgbrk, div + div {page-break-before: always;}
+@media screen {
+  .gridlines td {border: 1px solid black;}
+  .gridlines th {border: 1px solid black;}
+  body>div {margin-top: 5px;}
+  body>div:first-child {margin-top: 0;}
+  .scrpgbrk {margin-top: 1px;}
+}
+@media print {
+  .gridlinesp td {border: 1px solid black;}
+  .gridlinesp th {border: 1px solid black;}
+  .navigation {display: none;}
+}
+    </style>
+  </head>
+
+  <body>
+<div style='page: page0'>
+    <table id='sheet0' class='sheet0 gridlines'>
+        <col class="col0" />
+        <col class="col1" />
+        <col class="col2" />
+        <tbody>
+          <tr class="row0">
+            <td class="column0 style0 s">goodbye</td>
+            <td class="column1 style0 s">adios</td>
+            <td class="column2 style0 s">&nbsp;</td>
+          </tr>
+          <tr class="row1">
+            <td class="column0 style0 s">hello</td>
+            <td class="column1 style0 s">hola</td>
+            <td class="column2 style0 s">&nbsp;</td>
+          </tr>
+    </tbody></table>
+</div>
+  </body>
+</html>
