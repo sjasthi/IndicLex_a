@@ -1,4 +1,7 @@
+<?php include 'includes/header.php'; ?>
+<?php include 'includes/navbar.php'; ?>
 <?php
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -59,9 +62,6 @@ while ($row = mysqli_fetch_assoc($res)) {
     $langCounts[] = (int)$row['total'];
 }
 ?>
-
-<?php include 'includes/header.php'; ?>
-<?php include 'includes/navbar.php'; ?>
 
 <head>
     <title>IndicLex Reports</title>
